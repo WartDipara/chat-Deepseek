@@ -16,7 +16,6 @@ import reactor.core.publisher.Flux;
 public class ChatController {
 
     private final ChatClient chatClient;
-    private final ChatMemory chatMemory;
 
     @RequestMapping(value = "/chat",produces = "text/html;charset=utf-8")
     public Flux<String> chat(String prompt, String chatId) {
