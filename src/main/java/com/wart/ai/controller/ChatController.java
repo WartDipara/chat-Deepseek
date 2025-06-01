@@ -1,5 +1,6 @@
 package com.wart.ai.controller;
 
+import com.wart.ai.repository.ChatHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -16,10 +17,14 @@ import reactor.core.publisher.Flux;
 public class ChatController {
 
     private final ChatClient chatClient;
+     private final ChatHistoryRepository chatHistoryRepository;
 
     @RequestMapping(value = "/chat",produces = "text/html;charset=utf-8")
     public Flux<String> chat(String prompt, String chatId) {
-        //流式调用
+        //保存会话id
+        chatHistoryRepository.save("chat", chatId);
+
+        //请求model
         return chatClient
                 .prompt()
                 .user(prompt)
